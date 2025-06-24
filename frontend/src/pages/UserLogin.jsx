@@ -16,6 +16,7 @@ const UserLogin = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    
 
     const userData = {
       email: email,
@@ -28,7 +29,7 @@ const UserLogin = () => {
       const data = response.data
       setUser(data.user)
       localStorage.setItem('token', data.token)
-      navigate('/home')
+      navigate('/home', { replace: true })
     }
 
 

@@ -39,7 +39,7 @@ const Home = () => {
 
     const { socket } = useContext(SocketContext)
     const { user } = useContext(UserDataContext)
-
+    console.log(user)
     useEffect(() => {
         socket.emit("join", { userType: "user", userId: user._id })
     }, [ user ])
@@ -99,7 +99,6 @@ const Home = () => {
             gsap.to(panelRef.current, {
                 height: '70%',
                 padding: 24
-                // opacity:1
             })
             gsap.to(panelCloseRef.current, {
                 opacity: 1
@@ -108,7 +107,6 @@ const Home = () => {
             gsap.to(panelRef.current, {
                 height: '0%',
                 padding: 0
-                // opacity:0
             })
             gsap.to(panelCloseRef.current, {
                 opacity: 0
@@ -267,7 +265,6 @@ const Home = () => {
                     destination={destination}
                     fare={fare}
                     vehicleType={vehicleType}
-
                     setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
             </div>
             <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12'>

@@ -73,20 +73,59 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     }
 }
 
-module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+// module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
 
-    // radius in km
-
-
-    const captains = await captainModel.find({
-        location: {
-            $geoWithin: {
-                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
-            }
-        }
-    });
-
-    return captains;
+//     // radius in km
 
 
-}
+//     const captains = await captainModel.find({
+//         location: {
+//             $geoWithin: {
+//                 $centerSphere: [ [ lng, ltd ], radius / 6371 ]
+//             }
+//         }
+//     });
+
+//     return captains;
+
+
+// }
+const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    console.log("Calculating distance between:", lat1, lon1, "and", lat2, lon2);
+  const toRad = angle => (angle * Math.PI) / 180;
+  const R = 6371; // Earth's radius in km
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+};
+
+module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
+  const allCaptains = await captainModel.find({
+    status: "active",
+    location: { $ne: null } // Optional: filter captains with valid location
+  });
+
+  const captains = allCaptains.filter(captain => {
+    if (
+      captain.location &&
+      typeof captain.location.ltd === "number" &&
+      typeof captain.location.lng === "number"
+    ) {
+      const dist = haversineDistance(lat, lng, captain.location.ltd, captain.location.lng);
+      console.log("Distance to captain:", dist, "km");
+      return dist <= radius;
+    }
+    return false;
+  });
+
+  return captains;
+};
