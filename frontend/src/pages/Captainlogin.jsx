@@ -72,6 +72,8 @@ const Captainlogin = () => {
           >Login</button>
 
         </form>
+        <h5>Test Captain: ajit@gmail.com</h5>
+        <h5>Password: 0987654321</h5>
         <p className='text-center'>Join a fleet? <Link to='/captain-signup' className='text-blue-600'>Register as a Captain</Link></p>
       </div>
       <div>

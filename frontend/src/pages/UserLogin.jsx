@@ -74,6 +74,8 @@ const UserLogin = () => {
           >Login</button>
 
         </form>
+        <h5>Test User: ishwabharati@gmail.com</h5>
+        <h5>Password: 123456</h5>
         <p className='text-center'>New here? <Link to='/signup' className='text-blue-600'>Create new Account</Link></p>
       </div>
       <div>
